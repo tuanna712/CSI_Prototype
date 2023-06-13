@@ -15,7 +15,11 @@ def tab2_main():
         #Curves Plotting Selection
         selected_curvs = select_curvs_plotting(_curves_name)
         #Plot selected curves
-        view_curves(data=las_df, curves=selected_curvs)
+        if "DEPTH" in _curves_name:
+            depth_col = "DEPTH"
+        else: 
+            depth_col = "DEPT"
+        view_curves(data=las_df, curves=selected_curvs, depth_col=depth_col)
     pass
 
 def las_file_uploader():
@@ -26,9 +30,10 @@ def las_file_uploader():
         return StringIO(uploaded_file.getvalue().decode("utf-8"))
 
 def select_curvs_plotting(_curves_name):
+    _curves_name = _curves_name.tolist()
+    if "DEPTH" in _curves_name:
+        _curves_name.remove("DEPTH")
     if "DEPT" in _curves_name:
-        # print(type(_curves_name))
-        _curves_name = _curves_name.tolist()#.remove("DEPT")
         _curves_name.remove("DEPT")
     options = st.multiselect(
                             'Select curves fot plotting',
