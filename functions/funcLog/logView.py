@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-def view_curves(data:pd.DataFrame=None, curves:list=[], log:list=[],
+def view_curves(container, data:pd.DataFrame=None, curves:list=[], log:list=[],
         depth_col:str='DEPT', new_color:dict={}, new_unit:dict={},
         ):
     #FUNCTIONS DESIGNING-------------------------------------------------------------------------------------------------
@@ -78,7 +78,7 @@ def view_curves(data:pd.DataFrame=None, curves:list=[], log:list=[],
         curves_list = data.select_dtypes(include=['float64']).columns.drop(depth_col)
     
     #Calculate numbers of plotting columns and size of whole figure
-    cols = len(curves_list); height= 800; 
+    cols = len(curves_list); height= 500; 
     width = cols * 150 if cols*150 < 1300 else 1300 
     #Make subplots layout
     fig = go.Figure()
@@ -99,8 +99,8 @@ def view_curves(data:pd.DataFrame=None, curves:list=[], log:list=[],
     
     # Plot Streamlit!
     import streamlit as st
-    st.plotly_chart(fig, use_container_width=True)
-    
+    # st.plotly_chart(fig, use_container_width=True)
+    container.plotly_chart(fig, use_container_width=True)
     #Export to html
     # return plotly.offline.plot(fig, output_type='div', include_plotlyjs='cdn')
     
